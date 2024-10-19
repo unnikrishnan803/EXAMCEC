@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CEC S3 CS A Student Dashboard</title>
+  <link rel="stylesheet" href="style.css" />
+  <script defer src="script.js"></script>
+</head>
+<body>
+  <div class="sidebar">
+    <h2>CEC S3 CS A Student</h2>
+    <img src="CEC.jpg" alt="Profile Picture" class="profile-pic" />
+    <p>Profile: S3 CS A</p>
+    <nav>
+      <button id="timetable-btn">Timetable</button>
+      <button id="countdown-btn">Exam Countdown</button>
+      <button id="dark-mode-btn" onclick="toggleDarkMode()">Toggle Dark Mode</button>
+    </nav>
+  </div>
+
+  <main class="main-content">
+    <section id="countdown-section">
+      <h2>Exam Countdown</h2>
+      <div class="countdown-container">
+        <div class="countdown">
+          <h3>Maths</h3>
+          <div id="maths-countdown"></div>
+        </div>
+        <div class="countdown">
+          <h3>LSD</h3>
+          <div id="lsd-countdown"></div>
+        </div>
+        <div class="countdown">
+          <h3>OOPS</h3>
+          <div id="oops-countdown"></div>
+        </div>
+        <div class="countdown">
+          <h3>DS</h3>
+          <div id="ds-countdown"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="timetable-section" class="hidden">
+      <h2>Timetable: Oct 20 - Nov 20</h2>
+      <table>
+        <tr>
+          <th>Date</th>
+          <th>Day</th>
+          <th>Time</th>
+          <th>Attendance</th>
+        </tr>
+        <script>
+          const startDate = new Date('2024-10-20');
+          const endDate = new Date('2024-11-13');
+          let tableContent = '';
+          const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+          while (startDate <= endDate) {
+            const dateStr = `${startDate.getDate()}-${startDate.getMonth() + 1}`;
+            const dayStr = days[startDate.getDay()];
+            tableContent += `<tr>
+              <td>${dateStr}</td>
+              <td>${dayStr}</td>
+              <td>9 AM - 10 AM, 7 PM - 9 PM</td>
+              <td><input type="checkbox" /></td>
+            </tr>`;
+            startDate.setDate(startDate.getDate() + 1);
+          }
+          document.write(tableContent);
+        </script>
+      </table>
+    </section>
+  </main>
+
+  <script>
+    // Dark Mode Toggle
+    function toggleDarkMode() {
+        document.body.classList.toggle('dark-mode');
+    }
+
+    // Countdown Timer Function
+    function updateCountdowns() {
+      const exams = [
+        { name: "Maths", date: new Date("2024-11-01T09:00:00") },
+        { name: "LSD", date: new Date("2024-11-02T09:00:00") },
+        { name: "OOPS", date: new Date("2024-11-03T09:00:00") },
+        { name: "DS", date: new Date("2024-11-04T09:00:00") },
+      ];
+
+      exams.forEach(exam => {
+        const now = new Date();
+        const timeRemaining = exam.date - now;
+        const days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
+
+        document.getElementById(`${exam.name.toLowerCase()}-countdown`).innerHTML = 
+          `${days}d ${hours}h ${minutes}m ${seconds}s`;
+      });
+    }
+
+    setInterval(updateCountdowns, 1000);
+    updateCountdowns(); // Initial call
+  </script>
+</body>
+</html>
